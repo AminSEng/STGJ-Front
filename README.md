@@ -1,9 +1,21 @@
+This is the front-end part of our web application STGJ using : 
+Angular: Progressive JavaScript framework for building user interfaces
+Bootstrap: For responsive design and UI components
+Reactive Forms: For robust form handling and validation
+
 # TestAngular
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.7.
 
 ## Development server
-
+Navigate to the frontend directory:
+```bash
+cd driver-management-system/frontend
+``` 
+Install the dependencies:
+```bash
+npm install
+```
 To start a local development server, run:
 
 ```bash
