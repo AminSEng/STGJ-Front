@@ -1,0 +1,43 @@
+<div class="container">
+  <ng-template #errors>
+    <div class="text-danger">{{ errorMessage }}</div>
+  </ng-template>
+
+  <a style="padding-left: 20px" class="navbar-brand d-flex justify-content-center" routerLink="/">
+    <i class="bi bi-car-front fs-1"></i>
+  </a>
+
+  <div class="card" *ngIf="tracks; else errors">
+    <div class="card-header d-flex justify-content-center">
+      <p class="fs-3">Tracks List</p>
+    </div>
+
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead class="table-light">
+        <tr>
+          <th>Track ID</th>
+          <th>Track name</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let track of tracks">
+          <td>{{ track.trajetId }}</td>
+          <td>{{ track.nom }}</td>
+          <td>
+            <button class="btn btn-danger" (click)="handleDeleteTrack(track)">
+              <i class="bi bi-trash"></i>
+            </button>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+      <button class="btn btn-primary" (click)="handleAddTrack()">Add Track</button>
+      <button class="btn btn-primary" (click)="handleBackHome()">Back</button>
+  </div>
+</div>
+</div>
+<router-outlet></router-outlet>
+
