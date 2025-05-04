@@ -114,6 +114,33 @@ export class ProductsComponent implements OnInit{
   }
 
   handleSearchDriver() {
+    let keyword = this.searchFormGroup.value.keyword;
+    if (keyword.trim() === '') {
+      // If search is empty, load all drivers
+      this.handleGetAllDrivers();
+      return;
+    }
 
+    this.productService.searchDriver(keyword).subscribe({
+      next: (data) => {
+        this.products = data;
+        console.log('Search results:', data);
+      },
+      error: (error) => {
+        this.errorMessage = error;
+        console.error('Search error:', error);
+      }
+    });
+  }
+  handleSearchOnKeyup() {
+    // Only search if there are 3 or more characters
+    let keyword = this.searchFormGroup.value.keyword;
+    console.log('Search keyword:', keyword);
+    if (keyword.trim().length >= 3) {
+      this.handleSearchDriver();
+    } else if (keyword.trim().length === 0) {
+      // Reset to all drivers when search is cleared
+      this.handleGetAllDrivers();
+    }
   }
 }

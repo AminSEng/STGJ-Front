@@ -8,11 +8,21 @@
       <p class="fs-3">Drivers List </p>
     </div>
     <div class="card-body">
-      <form [formGroup] = "searchFormGroup" (ngSubmit) = "handleSearchDriver()">
+<!--      {{searchFormGroup.value | json}}-->
+      <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchDriver()">
         <div class="input-group">
-          <label class="input-group-text">Keyword</label>
-          <input type="text" class="form-control" formControlName = "keyword">
-          <button class="btn btn-success"><i class="bi bi-search"></i></button>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="keyword"
+            placeholder="Search drivers by name..."
+            (keyup)="handleSearchOnKeyup()">
+          <button class="btn btn-primary" type="submit">
+            <i class="bi bi-search"></i> Search
+          </button>
+          <button class="btn btn-secondary" type="button" (click)="handleGetAllDrivers()">
+            <i class="bi bi-arrow-counterclockwise"></i> Reset
+          </button>
         </div>
       </form>
       <table class="table table-hover">
