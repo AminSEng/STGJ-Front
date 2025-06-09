@@ -1,7 +1,18 @@
   import { Injectable } from '@angular/core';
   import {catchError, map, Observable, of, throwError } from 'rxjs';
   import {Product} from '../model/product.model';
-  import { HttpClient } from '@angular/common/http';
+  import { HttpClient, HttpParams } from '@angular/common/http';
+
+  export interface PageResponse<T> {
+    content: T[];
+    totalItems: number;
+    totalPages: number;
+    currentPage: number;
+    size: number;
+    first: boolean;
+    last: boolean;
+    empty: boolean;
+  }
 
   @Injectable({
     providedIn: 'root'
@@ -73,12 +84,15 @@
           })
         );
     }
-    public getAllDrivers(): Observable<Product[]> {
-      return this.http.get<any>("http://localhost:8080/api/drivers")
+    public getAllDrivers(page: number = 0, size: number = 1, sortBy: string = 'id', direction: string = 'asc'): Observable<PageResponse<Product>> {
+      let params = new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString())
+        .set('sortBy', sortBy)
+        .set('direction', direction);
+
+      return this.http.get<PageResponse<Product>>("http://localhost:8080/api/drivers", { params })
         .pipe(
-          map(response => {
-            return response.drivers || response;
-          }),
           catchError(error => {
             console.error('Error fetching drivers:', error);
             return throwError(() => error);
@@ -100,5 +114,56 @@
           })
         );
     }
+    getUserCounts(): Observable<any> {
+      return this.http.get<any>('http://localhost:8080/api/admin/user-counts');
+    }
+    assignTrajetToDriver(driverId: number, trajetId: number): Observable<any> {
+      const params = new HttpParams()
+        .set('driverId', driverId.toString())
+        .set('trajetId', trajetId.toString());
+
+      return this.http.post<any>('http://localhost:8080/api/admin/assign-trajet', null, { params }).pipe(
+        catchError((error) => {
+          console.error('Error assigning trajet:', error);
+          return throwError(() => error);
+        })
+      );
+    }
+    getDriverAssignments(): Observable<any[]> {
+      return this.http.get<any[]>('http://localhost:8080/api/admin/drivers/assignments');
+    }
+    getAllPassengers(): Observable<any[]> {
+      return this.http.get<any[]>('http://localhost:8080/api/passengers');
+    }
+    addTrajet(trajet: any): Observable<any> {
+      return this.http.post<any>('http://localhost:8080/api/admin/trajets', trajet);
+    }
+    getAllTrajets(): Observable<any[]> {
+      return this.http.get<any[]>('http://localhost:8080/api/admin/trajets');
+    }
+
+    chooseTrajet(userId: number, trajetId: number): Observable<any> {
+      return this.http.post<any>('http://localhost:8080/api/passenger/choose-trajet', {
+        userId,
+        trajetId
+      });
+    }
+    getAssignedTrajets(driverId:number):Observable<any[]>{
+      const params = new HttpParams().set('driverId', driverId.toString());
+      return this.http.get<any[]>('http://localhost:8080/api/driver/mes-trajets', { params }).pipe(
+        catchError((error) => {
+          console.error('Error fetching driver trajets:', error);
+          return throwError(() => error);
+        })
+      );
+    }
+
+
+
+
+
+
+
+
 
   }

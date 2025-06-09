@@ -1,0 +1,40 @@
+<div class="passenger-dashboard container mt-5">
+  <h2 class="text-center mb-4">Passenger Dashboard</h2>
+
+  <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <div class="card">
+    <div class="card-header">
+      <h5>Available Trajets</h5>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered table-hover" *ngIf="trajets.length > 0">
+        <thead class="thead-light">
+        <tr>
+          <th>Name</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let trajet of trajets">
+          <td>{{ trajet.nom }}</td>
+          <td>[{{ trajet.departLatitude }}, {{ trajet.departLongitude }}]</td>
+          <td>[{{ trajet.arriveeLatitude }}, {{ trajet.arriveeLongitude }}]</td>
+          <td>
+            <button class="btn btn-primary btn-sm" (click)="chooseTrajet(trajet.id)">
+              Choose
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div *ngIf="trajets.length === 0" class="text-muted">No trajets available.</div>
+    </div>
+  </div>
+  <div class="logout-container mt-4 text-center">
+    <button class="btn btn-danger" routerLink="/login">Logout</button>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <h2>All Registered Passengers</h2>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p>Loading...</p>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <table *ngIf="!loading && passengers.length > 0" class="table table-hover mt-3">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Chosen Trajet</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let passenger of passengers">
+      <td>{{ passenger.name }}</td>
+      <td>{{ passenger.email }}</td>
+      <td>{{ passengerTrajets[passenger.userId] || 'Loading...' }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && passengers.length === 0" class="alert alert-warning">
+    No passengers found.
+  </div>
+  <div class="mt-4">
+    <button class="btn btn-primary" routerLink="/admin-dashboard">Back to Admin Dashboard</button>
+</div>

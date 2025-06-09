@@ -1,0 +1,29 @@
+<div class="track-form-container">
+  <h2 class="d-flex justify-content-center">Add New Track</h2>
+  <form [formGroup]="trackForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="nom">Track Name</label>
+      <input type="text" formControlName="nom" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label>Departure Latitude</label>
+      <input type="number" formControlName="departLatitude" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label>Departure Longitude</label>
+      <input type="number" formControlName="departLongitude" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label>Arrival Latitude</label>
+      <input type="number" formControlName="arriveeLatitude" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label>Arrival Longitude</label>
+      <input type="number" formControlName="arriveeLongitude" class="form-control" />
+    </div>
+    <button class="btn btn-primary" type="submit" [disabled]="trackForm.invalid">Add Track</button>
+  </form>
+
+  <div *ngIf="message" class="alert alert-success mt-3">{{ message }}</div>
+  <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+</div>

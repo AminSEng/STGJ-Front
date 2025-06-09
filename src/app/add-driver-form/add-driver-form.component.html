@@ -1,18 +1,39 @@
-<!--<h1>NEW DRIVER FORM </h1>-->
-<!--<form [formGroup]="driverForm" (ngSubmit)="onSubmit()">-->
-<!--  <div>-->
-<!--    <label for="name">Name:</label>-->
-<!--    <input id="name" formControlName="name" />-->
-<!--  </div>-->
+<form [formGroup]="driverForm" (ngSubmit)="onSubmit()">
+  <h1 class="d-flex justify-content-center font-monospace">Add Driver </h1>
+  <div>
+    <label for="name">Name</label>
+    <input id="name" formControlName="name" placeholder="Name" required />
+  </div>
 
-<!--  <div>-->
-<!--    <label for="email">Email:</label>-->
-<!--    <input id="email" formControlName="email" />-->
-<!--  </div>-->
+  <div>
+    <label for="email">Email</label>
+    <input id="email" formControlName="email" type="email" placeholder="Email" required />
+  </div>
 
-<!--  <div>-->
-<!--    <label for="phone">Phone:</label>-->
-<!--    <input id="phone" formControlName="phone" />-->
-<!--  </div>-->
+  <div>
+    <label for="password">Password</label>
+    <input id="password" formControlName="password" type="password" placeholder="Password" required />
+  </div>
 
-<!--  <button type="submit">Add Driver</button>-->
+  <div>
+    <label for="phone">Phone</label>
+    <input id="phone" formControlName="phone" type="number" placeholder="Phone" />
+  </div>
+
+  <div>
+    <label>
+      <input type="checkbox" formControlName="disponibilite" />
+      Disponibility
+    </label>
+  </div>
+
+  <div>
+    <label for="role">Role</label>
+    <select id="role" formControlName="role">
+      <option value="driver">Driver</option>
+      <option value="admin">Admin</option>
+    </select>
+  </div>
+
+  <button type="submit">Add Driver</button>
+</form>

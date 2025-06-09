@@ -1,0 +1,103 @@
+/* Container Styling */
+.dashboard-container {
+  padding: 30px;
+  background: linear-gradient(135deg, #f9fbfc, #e3f2fd);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  max-width: 1200px;
+  margin: 40px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Grid Layout for Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+/* Individual Stat Box */
+.stat-box {
+  background-color: #ffffff;
+  padding: 24px;
+  border-left: 6px solid #0d6efd;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s;
+}
+
+.stat-box:hover {
+  transform: translateY(-4px);
+}
+
+.stat-box h3 {
+  font-size: 1rem;
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+
+.stat-box p {
+  font-size: 2rem;
+  color: #0d6efd;
+  font-weight: bold;
+}
+
+/* Actions Section */
+.dashboard-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-actions button {
+  padding: 10px 24px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.dashboard-actions .btn-primary {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.dashboard-actions .btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+.dashboard-actions .btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.dashboard-actions .btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+  .dashboard-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.logout-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  padding: 1rem;
+}
+
+.assignments-section {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}

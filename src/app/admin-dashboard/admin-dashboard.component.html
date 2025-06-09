@@ -1,0 +1,67 @@
+<div class="dashboard-container" *ngIf="!loading; else loadingTemplate">
+  <h2>Admin Dashboard</h2>
+
+
+  <div class="stats-grid">
+    <div class="card stat-box">
+      <h5>Total Users</h5>
+      <p>{{ userCounts.totalUsers }}</p>
+    </div>
+    <div class="card stat-box">
+      <h5>Total Drivers</h5>
+      <p>{{ userCounts.totalDrivers }}</p>
+    </div>
+    <div class="card stat-box">
+      <h5>Total Passengers</h5>
+      <p>{{ userCounts.totalPassengers }}</p>
+    </div>
+    <div class="card stat-box">
+      <h5>Available Drivers</h5>
+      <p>{{ userCounts.availableDrivers }}</p>
+    </div>
+  </div>
+
+  <div class="dashboard-actions mt-4">
+    <button class="btn btn-primary" routerLink="/assign-trajet">Assign Trajet to Driver</button>
+    <button class="btn btn-secondary" routerLink="/view-passengers">View Passengers</button>
+  </div>
+</div>
+
+
+
+<ng-template #loadingTemplate>
+  <div class="text-center">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p>Loading dashboard...</p>
+  </div>
+</ng-template>
+<!-- Assignments Section -->
+<div class="assignments-section px-4 py-5">
+  <h3 class="mt-5 text-center">Drivers & Their Assigned Trajets</h3>
+
+  <div *ngIf="!loading && driverAssignments.length === 0" class="alert alert-warning mt-3">
+    No assignments found.
+  </div>
+
+  <table *ngIf="!loading && driverAssignments.length > 0" class="table table-striped mt-3">
+    <thead>
+    <tr>
+      <th>Driver Name</th>
+      <th>Trajet</th>
+      <th>Assigned On</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let a of driverAssignments">
+      <td>{{ a.user?.name }}</td>
+      <td>{{ a.trajet?.nom }}</td>
+      <td>{{ a.dateAssignation | date: 'short' }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="logout-container mt-4 text-center">
+    <button class="btn btn-danger" routerLink="/login">Logout</button>
+  </div>
+</div>
+

@@ -4,9 +4,6 @@ export interface Product {
   phone? : number;
   disponibilite ?: boolean;
   role ?: string;
-
-
-
   email: string;
   password: string;
 

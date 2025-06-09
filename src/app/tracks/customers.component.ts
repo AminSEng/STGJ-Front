@@ -23,6 +23,7 @@ export class CustomersComponent implements OnInit{
     this.trackService.getAllTracks().subscribe({
       next: (data) => {
         this.tracks = data;
+        console.log("Test : " ,this.tracks)
         console.log(data);
       },
       error: (error) => {
@@ -32,8 +33,8 @@ export class CustomersComponent implements OnInit{
     }
   handleDeleteTrack(track: Track) {
     if (confirm("Are you sure you want to delete this track?")) {
-      if(!track.trajetId) return;
-      this.trackService.deleteTrack(track.trajetId).subscribe({
+      if(!track.id) return;
+      this.trackService.deleteTrack(track.id).subscribe({
         next: (data) => {
           this.handleGetAllTracks();
           console.log(data);

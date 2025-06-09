@@ -1,4 +1,4 @@
 export interface Track {
-  trajetId?:number;
+  id?:number;
   nom: string;
 }

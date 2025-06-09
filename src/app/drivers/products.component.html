@@ -1,16 +1,21 @@
-<div class = "container">
+<div class="container">
   <ng-template #errors>
-    <div class="text-danger">{{errorMessage}}</div>
+    <div class="text-danger">{{ errorMessage }}</div>
   </ng-template>
-  <a style="padding-left: 20px" class="navbar-brand d-flex justify-content-center" routerLink="/"><i class="bi bi-car-front fs-1 "></i></a>
+
+  <a style="padding-left: 20px" class="navbar-brand d-flex justify-content-center" routerLink="/">
+    <i class="bi bi-car-front fs-1"></i>
+  </a>
+
   <div class="card" *ngIf="products; else errors">
     <div class="card-header d-flex justify-content-center">
-      <p class="fs-3">Drivers List </p>
+      <p class="fs-3">Drivers List</p>
     </div>
+
     <div class="card-body">
-<!--      {{searchFormGroup.value | json}}-->
+      <!-- Search Form -->
       <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchDriver()">
-        <div class="input-group">
+        <div class="input-group mb-3">
           <input
             type="text"
             class="form-control"
@@ -25,41 +30,112 @@
           </button>
         </div>
       </form>
+
+      <!-- Pagination & Page Size -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <div class="d-flex align-items-center">
+            <span class="me-2">Show</span>
+            <select class="form-select form-select-sm" style="width: auto" (change)="changePageSize($event)">
+              <option [selected]="pageSize === 5" value="5">5</option>
+              <option [selected]="pageSize === 10" value="10">10</option>
+              <option [selected]="pageSize === 25" value="25">25</option>
+              <option [selected]="pageSize === 50" value="50">50</option>
+            </select>
+            <span class="ms-2">entries</span>
+          </div>
+        </div>
+        <div class="col-md-6 text-end" *ngIf="totalItems > 0">
+          <span>Showing {{ currentPage * pageSize + 1 }} to {{ Math.min((currentPage + 1) * pageSize, totalItems) }} of {{ totalItems }} entries</span>
+        </div>
+      </div>
+
+      <!-- Driver Table -->
       <table class="table table-hover">
         <thead>
         <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Telephone</th>
-          <th>Availability</th>
+          <th class="sortable" (click)="changeSorting('id')">
+            ID
+            <i *ngIf="sortBy === 'id'" [ngClass]="{'bi bi-arrow-up': sortDirection === 'asc', 'bi bi-arrow-down': sortDirection === 'desc'}"></i>
+          </th>
+          <th class="sortable" (click)="changeSorting('name')">
+            Name
+            <i *ngIf="sortBy === 'name'" [ngClass]="{'bi bi-arrow-up': sortDirection === 'asc', 'bi bi-arrow-down': sortDirection === 'desc'}"></i>
+          </th>
+          <th class="sortable" (click)="changeSorting('phone')">
+            Telephone
+            <i *ngIf="sortBy === 'phone'" [ngClass]="{'bi bi-arrow-up': sortDirection === 'asc', 'bi bi-arrow-down': sortDirection === 'desc'}"></i>
+          </th>
+          <th class="sortable" (click)="changeSorting('disponibilite')">
+            Availability
+            <i *ngIf="sortBy === 'disponibilite'" [ngClass]="{'bi bi-arrow-up': sortDirection === 'asc', 'bi bi-arrow-down': sortDirection === 'desc'}"></i>
+          </th>
           <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let product of products">
-          <td>{{product.userId}}</td>
-          <td>{{product.name}}</td>
-          <td>{{product.phone}}</td>
-          <td *ngIf ="product.disponibilite"><i class="bi bi-check text-success fs-1"></i></td>
-          <td *ngIf ="!product.disponibilite"><i class="bi bi-x-lg text-danger fs-3"></i></td>
+          <td>{{ product.userId }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.phone }}</td>
           <td>
-            <button (click)="handleToggleDriverStatus(product)" [ngClass] = "product.disponibilite ==true ? 'btn-danger':'btn-success'" class="btn">
+            <i *ngIf="product.disponibilite" class="bi bi-check text-success fs-1"></i>
+            <i *ngIf="!product.disponibilite" class="bi bi-x-lg text-danger fs-3"></i>
+          </td>
+          <td>
+            <button
+              (click)="handleToggleDriverStatus(product)"
+              [ngClass]="product.disponibilite ? 'btn-danger' : 'btn-success'"
+              class="btn">
               <span *ngIf="product.disponibilite">Not Available</span>
               <span *ngIf="!product.disponibilite">Available</span>
             </button>
-          </td>
-          <td>
-            <button class="btn btn-danger" (click)="handleDeleteProduct(product)"><i class="bi bi-trash"></i></button>
+            <button class="btn btn-danger ms-2" (click)="handleDeleteProduct(product)">
+              <i class="bi bi-trash"></i>
+            </button>
           </td>
         </tr>
         </tbody>
+        <tfoot *ngIf="products.length === 0">
+        <tr>
+          <td colspan="6" class="text-center">No drivers found</td>
+        </tr>
+        </tfoot>
       </table>
+
+      <!-- Pagination Controls -->
+      <nav *ngIf="totalPages > 1" aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage === 0">
+            <a class="page-link" href="javascript:void(0)" (click)="previousPage()">
+              <i class="bi bi-chevron-left"></i> Previous
+            </a>
+          </li>
+
+          <li class="page-item" *ngFor="let page of pages" [class.active]="currentPage === page">
+            <a class="page-link" href="javascript:void(0)" (click)="goToPage(page)">{{ page + 1 }}</a>
+          </li>
+
+          <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+            <a class="page-link" href="javascript:void(0)" (click)="nextPage()">
+              Next <i class="bi bi-chevron-right"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
+
+    <!-- Footer with Navigation Buttons -->
     <div class="card-footer d-flex justify-content-between">
-      <button class="btn btn-primary" (click)="handleAddProduct()">Add Driver</button>
+      <!-- Updated button to navigate to add-driver form route -->
+      <a class="btn btn-primary" [routerLink]="['/add-driver']">Add Driver</a>
       <button class="btn btn-primary" (click)="handleBackHome()">Back</button>
     </div>
   </div>
+  <div class="logout-container mt-4 text-center">
+    <button class="btn btn-danger" routerLink="/login">Logout</button>
+  </div>
 </div>
-<router-outlet></router-outlet>
 
+
+<router-outlet></router-outlet>
